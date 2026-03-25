@@ -1,0 +1,289 @@
+<section *ngIf="guide; else notFoundBlock" class="guide-page">
+  <div class="guide-page__hero">
+    <div class="guide-page__hero-overlay"></div>
+
+    <div class="container guide-page__hero-content">
+      <div class="guide-page__hero-text">
+        <button class="back-link" type="button" (click)="goToMainWebsite()">
+          ✨ Explorar guías, descuentos y viajes personalizados
+        </button>
+
+        <span class="badge">Descarga gratuita</span>
+
+        <h1>Recibe la guía: {{ guide.title }}</h1>
+
+        <p class="guide-page__hero-description">
+          Una guía visual y práctica para organizar tu viaje con más claridad, sin perder horas buscando información por tu cuenta.
+        </p>
+
+        <div class="guide-page__hero-meta">
+          <span>{{ guide.destination }}</span>
+          <span>{{ guide.duration }}</span>
+          <span>{{ guide.highlight }}</span>
+        </div>
+      </div>
+
+      <div class="guide-page__hero-card">
+        <img [src]="guide.image" [alt]="'Portada de la guía ' + guide.title" />
+      </div>
+    </div>
+  </div>
+
+  <div class="container guide-page__body">
+    <div class="guide-page__grid">
+      <section class="guide-info card">
+        <span class="section-label">Sobre esta guía</span>
+        <h2>{{ guide.title }}</h2>
+
+        <p class="guide-info__description">
+          {{ guide.description }}
+        </p>
+
+        <div class="guide-info__points">
+          <article class="info-pill">
+            <strong>Formato</strong>
+            <span>Digital y visual</span>
+          </article>
+
+          <article class="info-pill">
+            <strong>Acceso</strong>
+            <span>Gratis</span>
+          </article>
+
+          <article class="info-pill">
+            <strong>Ideal para</strong>
+            <span>Planificar mejor</span>
+          </article>
+        </div>
+      </section>
+
+      <aside class="download-card card">
+        <span class="section-label">Recibir por correo</span>
+        <h2>Descarga tu guía</h2>
+
+        <p class="download-card__text">
+          Déjame tu correo y acepta la política de protección de datos para poder enviarte la guía.
+        </p>
+
+        <div class="modal-form">
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input
+              id="email"
+              type="email"
+              [(ngModel)]="email"
+              (blur)="emailTouched = true"
+              placeholder="tuemail@ejemplo.com"
+              [class.input-error]="showEmailError"
+              [class.input-success]="showSuccessMessage"
+              autocomplete="email"
+            />
+
+            <p class="field__message field__message--error" *ngIf="showEmailError">
+              Escribe una dirección de correo válida.
+            </p>
+          </div>
+
+          <label class="checkbox">
+            <input type="checkbox" [(ngModel)]="acceptedPolicy" />
+            <span>
+              Acepto la
+              <a href="/politica-privacidad" target="_blank" rel="noopener noreferrer">
+                política de protección de datos
+              </a>
+              para poder recibir la guía.
+            </span>
+          </label>
+
+          <label class="checkbox">
+            <input type="checkbox" [(ngModel)]="acceptedMarketing" />
+            <span>
+              Quiero recibir promociones, novedades y contenidos relacionados con viajes.
+            </span>
+          </label>
+
+          <button
+            class="btn btn--primary"
+            type="button"
+            [disabled]="!canSubmit"
+            (click)="onSubmit()"
+          >
+            Enviar guía
+          </button>
+
+          <p class="form-feedback form-feedback--success" *ngIf="showSuccessMessage">
+            Te enviaremos la guía en breve. Revisa tu buzón de correo y la carpeta de Spam que a veces llega por ahí.
+          </p>
+
+          <p class="form-feedback form-feedback--error" *ngIf="submitError">
+            No hemos podido enviar la guía ahora mismo. Inténtalo de nuevo en unos minutos.
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="guide-perks" *ngIf="discounts.length > 0">
+      <div class="section-heading section-heading--left">
+        <span class="section-label">Ventajas viajeras</span>
+        <h2>Descuentos y recursos que también te pueden ayudar en tu viaje</h2>
+        <p>
+          Además de las guías, en RumboAtlas también comparto descuentos y herramientas útiles para planificar mejor, reservar actividades o guardar recuerdos del viaje.
+        </p>
+      </div>
+
+      <div class="guide-perks__grid">
+        <article class="perk-card" *ngFor="let perk of discounts">
+          <div class="perk-card__image">
+            <img [src]="perk.image" [alt]="perk.title" />
+          </div>
+
+          <div class="perk-card__top">
+            <span class="perk-card__label">{{ perk.label }}</span>
+            <h3>{{ perk.title }}</h3>
+          </div>
+
+          <p class="perk-card__description">{{ perk.description }}</p>
+          <p class="perk-card__details">{{ perk.details }}</p>
+
+          <div class="perk-card__points">
+            <div class="perk-card__point" *ngFor="let point of perk.points">
+              <span class="perk-card__dot"></span>
+              <span>{{ point }}</span>
+            </div>
+          </div>
+
+          <div class="perk-card__code">
+            <div class="perk-card__code-info">
+              <span>Código descuento</span>
+              <strong>{{ perk.code }}</strong>
+            </div>
+
+            <button
+              type="button"
+              class="perk-card__copy"
+              (click)="copyDiscountCode(perk.code)"
+              [attr.aria-label]="'Copiar código ' + perk.code"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M9 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9zm-4 6V6a2 2 0 0 1 2-2h7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <p class="perk-card__copied" *ngIf="copiedCode === perk.code">
+            Código copiado
+          </p>
+
+          <a
+            class="btn btn--primary"
+            [href]="perk.url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ perk.buttonText }}
+          </a>
+        </article>
+      </div>
+    </section>
+
+        <section class="related-guides" *ngIf="relatedGuides.length > 0">
+      <div class="section-heading section-heading--left">
+        <span class="section-label">También te pueden interesar</span>
+        <h2>Otras guías de viaje relacionadas</h2>
+        <p>
+          Si este destino no es el que buscabas, aquí tienes otras guías gratuitas con la misma estética visual y práctica.
+        </p>
+      </div>
+
+      <div class="related-guides__carousel">
+        <button
+          class="related-guides__arrow related-guides__arrow--left"
+          type="button"
+          (click)="scrollRelatedGuides('left')"
+          aria-label="Ver guías anteriores"
+        >
+          &lt;
+        </button>
+
+        <div class="related-guides__slider" #relatedGuidesSlider>
+          <article class="guide-card" *ngFor="let item of relatedGuides">
+            <div class="guide-card__cover">
+              <img [src]="item.image" [alt]="item.title" />
+            </div>
+
+            <div class="guide-card__content">
+              <span class="guide-card__tag">{{ item.highlight }}</span>
+              <h3>{{ item.title }}</h3>
+              <p class="guide-card__destination">{{ item.destination }}</p>
+              <p class="guide-card__meta">{{ item.duration }}</p>
+              <p class="guide-card__description">{{ item.description }}</p>
+
+              <div class="guide-card__footer guide-card__footer--download">
+                <div class="guide-card__free">
+                  <span>Acceso</span>
+                  <strong>Gratis</strong>
+                </div>
+
+                <button class="btn btn--dark" type="button" (click)="goToGuide(item.id)">
+                  Ver guía
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <button
+          class="related-guides__arrow related-guides__arrow--right"
+          type="button"
+          (click)="scrollRelatedGuides('right')"
+          aria-label="Ver más guías"
+        >
+          &gt;
+        </button>
+      </div>
+    </section>
+
+    <section class="discover-ra">
+      <div class="discover-ra__box">
+        <div class="discover-ra__content">
+          <span class="section-label">Descubre más</span>
+          <h2>Esto es solo una parte de RumboAtlas</h2>
+          <p>
+            En la web principal encontrarás más guías gratuitas, descuentos viajeros y también la opción de pedirme ayuda para preparar un viaje personalizado según tus fechas, tu presupuesto y el tipo de experiencia que buscas.
+          </p>
+        </div>
+
+        <div class="discover-ra__actions">
+          <button class="btn btn--light-cta" type="button" (click)="goToMainWebsite()">
+            Ver guías, descuentos y viajes personalizados
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<ng-template #notFoundBlock>
+  <section class="guide-page guide-page--not-found">
+    <div class="container">
+      <div class="not-found card">
+        <span class="section-label">Guía no encontrada</span>
+        <h1>Esta guía no está disponible ahora mismo</h1>
+        <p>
+          Puede que la URL no sea correcta o que la guía todavía no esté publicada.
+        </p>
+
+        <button class="btn btn--primary" type="button" (click)="goToMainWebsite()">
+          Ver la web principal
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>

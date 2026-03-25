@@ -1,0 +1,298 @@
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <button class="modal-card__close" type="button" (click)="onClose()">
+      ×
+    </button>
+
+    <div class="modal-card__hero">
+      <div class="modal-card__overlay">
+        <span class="modal-card__label">Viaje a medida</span>
+        <h2>Solicitud de viaje personalizado</h2>
+
+        <div class="modal-card__meta">
+          <span>Estudio personalizado</span>
+          <span>Propuesta adaptada</span>
+          <span>Presupuesto orientativo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-card__content">
+      <div class="guide-summary">
+        <span class="guide-summary__badge">Cuéntame tu idea</span>
+        <p class="guide-summary__description">
+          Rellena esta solicitud con la idea general de tu viaje y estudiaré tu caso de forma personalizada.
+          Después te responderé con una propuesta adaptada a tus fechas, gustos y presupuesto aproximado,
+          y también te indicaré el precio de mi servicio y qué incluye exactamente la ayuda que te puedo ofrecer.
+        </p>
+      </div>
+
+      <p class="modal-card__text">
+        Esta solicitud no implica una reserva directa ni un presupuesto cerrado inmediato.
+        Primero revisaré tu idea de viaje, valoraré si encaja con lo que necesitas y te enviaré una respuesta
+        con orientación, opciones, presupuesto estimado del viaje y mi propuesta de servicio personalizada.
+      </p>
+
+      <div class="modal-form">
+        <div class="field-grid">
+          <div class="field">
+            <label for="origin">Origen</label>
+            <input
+              id="origin"
+              type="text"
+              [(ngModel)]="origin"
+              (blur)="originTouched = true"
+              placeholder="Ej. Madrid, Barcelona, Valencia"
+              [class.input-error]="showOriginError"
+            />
+
+            <p class="field__message field__message--error" *ngIf="showOriginError">
+              Indica desde dónde saldrías.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="destination">Destino</label>
+            <input
+              id="destination"
+              type="text"
+              [(ngModel)]="destination"
+              (blur)="destinationTouched = true"
+              placeholder="Ej. Japón, Sicilia, Nueva York"
+              [class.input-error]="showDestinationError"
+            />
+
+            <p class="field__message field__message--error" *ngIf="showDestinationError">
+              Indica el destino que tienes en mente.
+            </p>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="daysAvailable">Días disponibles</label>
+            <input
+              id="daysAvailable"
+              type="number"
+              min="1"
+              [(ngModel)]="daysAvailable"
+              (blur)="daysTouched = true"
+              placeholder="Ej. 7"
+              [class.input-error]="showDaysError"
+            />
+
+            <p class="field__message field__message--error" *ngIf="showDaysError">
+              Indica cuántos días tienes disponibles.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="travelers">Número de viajeros</label>
+            <input
+              id="travelers"
+              type="number"
+              min="1"
+              [(ngModel)]="travelers"
+              (blur)="travelersTouched = true"
+              placeholder="Ej. 2"
+              [class.input-error]="showTravelersError"
+            />
+
+            <p class="field__message field__message--error" *ngIf="showTravelersError">
+              Indica cuántas personas viajarían.
+            </p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="budget">Presupuesto aproximado para el viaje</label>
+
+          <div class="budget-group">
+            <input
+              id="budget"
+              type="number"
+              min="0"
+              [(ngModel)]="budget"
+              (blur)="budgetTouched = true"
+              placeholder="Ej. 1500"
+              [disabled]="budgetNotSure"
+              [class.input-error]="showBudgetError"
+            />
+
+            <select [(ngModel)]="currency" [disabled]="budgetNotSure">
+              <option value="EUR">€ EUR</option>
+              <option value="USD">$ USD</option>
+            </select>
+          </div>
+
+          <label class="checkbox">
+            <input type="checkbox" [(ngModel)]="budgetNotSure" />
+            <span>No lo tengo claro todavía</span>
+          </label>
+
+          <p class="field__message field__message--error" *ngIf="showBudgetError">
+            Indica un presupuesto o marca que aún no lo tienes claro.
+          </p>
+        </div>
+
+        <div class="field">
+          <label>¿Tienes fechas fijas?</label>
+
+          <div class="choice-group">
+            <label class="choice-pill">
+              <input
+                type="radio"
+                name="hasFixedDates"
+                [value]="true"
+                [(ngModel)]="hasFixedDates"
+              />
+              <span>Sí</span>
+            </label>
+
+            <label class="choice-pill">
+              <input
+                type="radio"
+                name="hasFixedDates"
+                [value]="false"
+                [(ngModel)]="hasFixedDates"
+              />
+              <span>No</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-grid" *ngIf="hasFixedDates">
+          <div class="field">
+            <label for="startDate">Desde</label>
+            <input
+              id="startDate"
+              type="date"
+              [(ngModel)]="startDate"
+              (blur)="datesTouched = true"
+              [class.input-error]="showDateRangeError"
+            />
+          </div>
+
+          <div class="field">
+            <label for="endDate">Hasta</label>
+            <input
+              id="endDate"
+              type="date"
+              [(ngModel)]="endDate"
+              (blur)="datesTouched = true"
+              [class.input-error]="showDateRangeError"
+            />
+          </div>
+        </div>
+
+        <p class="field__message field__message--error" *ngIf="showDateRangeError">
+          Revisa las fechas: deben estar completas y la fecha final no puede ser anterior a la inicial.
+        </p>
+
+        <div class="field">
+          <label for="extraInfo">Qué más debemos saber</label>
+          <textarea
+            id="extraInfo"
+            rows="5"
+            [(ngModel)]="extraInfo"
+            placeholder="Ej. Viajamos en pareja, nos gusta combinar ciudad y naturaleza, preferimos hoteles con encanto, no queremos alquilar coche, nos interesa comer bien, hacer una ruta tranquila y evitar zonas demasiado turísticas."
+          ></textarea>
+
+          <p class="field__hint">
+            Aquí puedes contarme todo lo importante para preparar mejor la propuesta:
+            tipo de viaje, quién viaja, si buscas algo relajado o más completo, tipo de alojamiento,
+            intereses, si vais con niños, si queréis alquilar coche, aeropuerto de salida,
+            prioridades del viaje o cualquier detalle que pueda ayudarme a valorar mejor vuestra solicitud.
+          </p>
+        </div>
+
+        <div class="field-grid field-grid--contact">
+          <div class="field">
+            <label for="phoneCountryCode">Código del país</label>
+            <input
+              id="phoneCountryCode"
+              type="text"
+              [(ngModel)]="phoneCountryCode"
+              (blur)="phoneCountryCodeTouched = true"
+              placeholder="Ej. +34"
+              [class.input-error]="showPhoneCountryCodeError"
+            />
+
+            <p class="field__message field__message--error" *ngIf="showPhoneCountryCodeError">
+              Indica el prefijo del país.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="phone">Teléfono</label>
+            <input
+              id="phone"
+              type="tel"
+              [(ngModel)]="phone"
+              (blur)="phoneTouched = true"
+              placeholder="Ej. 612345678"
+              [class.input-error]="showPhoneError"
+            />
+
+            <p class="field__message field__message--error" *ngIf="showPhoneError">
+              Indica un teléfono válido.
+            </p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            (blur)="emailTouched = true"
+            placeholder="tuemail@ejemplo.com"
+            [class.input-error]="showEmailError"
+            autocomplete="email"
+          />
+
+          <p class="field__message field__message--error" *ngIf="showEmailError">
+            Escribe una dirección de correo válida.
+          </p>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="acceptedPolicy" />
+          <span>
+            Acepto la
+            <a href="/politica-privacidad" target="_blank" rel="noopener noreferrer">
+              política de protección de datos
+            </a>
+            para poder enviar esta solicitud.
+          </span>
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="acceptedMarketing" />
+          <span>
+            Quiero recibir promociones, novedades y contenidos relacionados con viajes.
+          </span>
+        </label>
+
+        <button
+          class="btn-submit"
+          type="button"
+          [disabled]="!canSubmit"
+          (click)="onSubmit()"
+        >
+          Enviar solicitud
+        </button>
+
+        <p class="form-feedback form-feedback--success" *ngIf="showSuccessMessage">
+          Hemos recibido tu solicitud. Revisaré tu caso y te responderé con una propuesta personalizada,
+          una estimación orientativa del viaje y el detalle de mi servicio.
+        </p>
+
+        <p class="form-feedback form-feedback--error" *ngIf="submitError">
+          No hemos podido enviar tu solicitud ahora mismo. Inténtalo de nuevo en unos minutos.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

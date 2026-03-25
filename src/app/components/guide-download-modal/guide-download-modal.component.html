@@ -1,0 +1,94 @@
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <button class="modal-card__close" type="button" (click)="onClose()">
+      ×
+    </button>
+
+    <div class="modal-card__hero">
+      <img
+        class="modal-card__image"
+        [src]="guide.image"
+        [alt]="'Imagen de la guía ' + guide.title"
+      />
+
+      <div class="modal-card__overlay">
+        <span class="modal-card__label">Descarga gratuita</span>
+        <h2>Recibe la guía: {{ guide.title }}</h2>
+
+        <div class="modal-card__meta">
+          <span>{{ guide.destination }}</span>
+          <span>{{ guide.duration }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-card__content">
+      <div class="guide-summary">
+        <span class="guide-summary__badge">{{ guide.highlight }}</span>
+        <p class="guide-summary__description">
+          {{ guide.description }}
+        </p>
+      </div>
+
+      <p class="modal-card__text">
+        Déjame tu correo y acepta la política de protección de datos para poder
+        enviarte la guía.
+      </p>
+
+      <div class="modal-form">
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            (blur)="emailTouched = true"
+            placeholder="tuemail@ejemplo.com"
+            [class.input-error]="showEmailError"
+            [class.input-success]="showSuccessMessage"
+            autocomplete="email"
+          />
+
+          <p class="field__message field__message--error" *ngIf="showEmailError">
+            Escribe una dirección de correo válida.
+          </p>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="acceptedPolicy" />
+          <span>
+            Acepto la
+            <a href="/politica-privacidad" target="_blank" rel="noopener noreferrer">
+              política de protección de datos
+            </a>
+            para poder recibir la guía.
+          </span>
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="acceptedMarketing" />
+          <span>
+            Quiero recibir promociones, novedades y contenidos relacionados con viajes.
+          </span>
+        </label>
+
+        <button
+          class="btn-submit"
+          type="button"
+          [disabled]="!canSubmit"
+          (click)="onSubmit()"
+        >
+          Enviar guía
+        </button>
+
+        <p class="form-feedback form-feedback--success" *ngIf="showSuccessMessage">
+          Te enviaremos la guía en breve. Revisa tu buzón de correo.
+        </p>
+
+        <p class="form-feedback form-feedback--error" *ngIf="submitError">
+          No hemos podido enviar la guía ahora mismo. Inténtalo de nuevo en unos minutos.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

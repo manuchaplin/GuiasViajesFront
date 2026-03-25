@@ -1,0 +1,363 @@
+<section class="hero">
+  <div class="hero__overlay"></div>
+
+  <div class="container hero__content">
+    <div class="hero__text">
+      <span class="badge">Guías de viaje digitales y planificación personalizada</span>
+
+      <h1>
+        Organiza tu viaje de forma fácil y sin perder horas buscando.
+      </h1>
+
+      <p class="hero__description">
+        En <strong>{{ brandName }}</strong> encontrarás guías de viaje gratuitas, visuales y prácticas
+        para viajar con más claridad. Y si quieres algo más personalizado, también puedo ayudarte
+        a preparar tu viaje según tus fechas, tus gustos y el tipo de experiencia que te apetece vivir.
+      </p>
+
+      <div class="hero__actions">
+        <button class="btn btn--primary" (click)="scrollToGuides()">
+          Ver guías
+        </button>
+
+        <button class="btn btn--secondary" (click)="scrollToCustomTrip()">
+          Viaje personalizado
+        </button>
+
+        <button class="btn btn--secondary-alt" (click)="scrollToDiscounts()">
+          Consigue descuentos
+        </button>
+      </div>
+
+      <div class="hero__points">
+        <span>Guías visuales</span>
+        <span>Descarga gratis</span>
+        <span>Rutas prácticas</span>
+        <span>Planificación a medida</span>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <div class="cover-stack">
+        <article class="cover-card cover-card--back">
+          <img
+            src="assets/images/Japon.jpg"
+            alt="Portada vertical de guía de viaje"
+          />
+        </article>
+
+        <article class="cover-card cover-card--middle">
+          <img
+            src="assets/images/NewYork.jpg"
+            alt="Portada vertical de guía de viaje"
+          />
+        </article>
+
+        <article class="cover-card cover-card--front">
+          <img
+            src="assets/images/Londres.jpg"
+            alt="Portada principal de guía de viaje"
+          />
+          <div class="cover-card__info">
+            <span>Proximamente</span>
+            <h3>Londres en 3 días</h3>
+            <p>Ideas, rutas y consejos para disfrutar más y planificar mejor.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="value">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-label">Por qué te puede ayudar</span>
+      <h2>Menos dudas, menos tiempo organizando y un viaje mucho más claro desde el principio</h2>
+      <p>
+        Aquí no vienes solo a inspirarte. Vienes a encontrar una forma más fácil de preparar tu viaje,
+        con información útil, rutas realistas y ayuda de verdad si no sabes por dónde empezar.
+      </p>
+    </div>
+
+    <div class="value__grid">
+      <article class="value-card" *ngFor="let benefit of benefits">
+        <h3>{{ benefit.title }}</h3>
+        <p>{{ benefit.text }}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="guides" class="guides">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-label">Guías destacadas</span>
+      <h2>Descarga gratis una guía y empieza a organizar tu viaje con más claridad</h2>
+      <p>
+        Guías prácticas, visuales y pensadas para ayudarte a saber qué ver, cómo repartir los días
+        y cómo disfrutar más del destino sin complicarte.
+      </p>
+    </div>
+
+    <div class="guides__topbar">
+      <div class="guides__search">
+        <input
+          type="text"
+          [(ngModel)]="guideSearch"
+          placeholder="Buscar guía por destino o nombre"
+        />
+      </div>
+
+      <p class="guides__results">
+        {{ filteredGuides.length }} guía<span *ngIf="filteredGuides.length !== 1">s</span>
+      </p>
+    </div>
+
+    <div *ngIf="filteredGuides.length > 0; else noGuidesFound" class="guides__carousel">
+      <button
+        class="guides__arrow guides__arrow--left"
+        type="button"
+        (click)="scrollGuides('left')"
+        aria-label="Ver guías anteriores"
+      >
+        &lt;
+      </button>
+
+      <div class="guides__slider" #guidesSlider>
+        <article class="guide-card" *ngFor="let guide of filteredGuides">
+          <div class="guide-card__cover">
+            <img [src]="guide.image" [alt]="guide.title" />
+          </div>
+
+          <div class="guide-card__content">
+            <span class="guide-card__tag">{{ guide.highlight }}</span>
+            <h3>{{ guide.title }}</h3>
+            <p class="guide-card__destination">{{ guide.destination }}</p>
+            <p class="guide-card__meta">{{ guide.duration }}</p>
+            <p class="guide-card__description">{{ guide.description }}</p>
+
+            <div class="guide-card__footer guide-card__footer--download">
+              <div class="guide-card__free">
+                <span>Acceso</span>
+                <strong>Gratis</strong>
+              </div>
+
+              <button class="btn btn--dark" (click)="openGuidePage(guide)">
+                Descargar guía
+              </button>
+
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <button
+        class="guides__arrow guides__arrow--right"
+        type="button"
+        (click)="scrollGuides('right')"
+        aria-label="Ver más guías"
+      >
+        &gt;
+      </button>
+    </div>
+
+    <ng-template #noGuidesFound>
+      <div class="guides__empty">
+        <h3>No he encontrado ninguna guía con esa búsqueda</h3>
+        <p>Prueba con otro destino o escribe una palabra más general.</p>
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+<section id="custom-trip" class="custom-trip">
+  <div class="container custom-trip__wrapper">
+    <div class="custom-trip__text">
+      <span class="section-label">Viajes personalizados</span>
+      <h2>Si no encuentras una guía que encaje contigo, te ayudo a organizar tu viaje a medida</h2>
+
+      <p>
+        Puedo ayudarte a encontrar las mejores fechas para viajar, buscar vuelos, encontrar alojamientos
+        y preparar un itinerario personalizado según tus gustos, tu ritmo y todo lo que te apetezca ver.
+      </p>
+
+      <p>
+        La idea es que no tengas que empezar desde cero ni pasar horas comparando opciones.
+        Tendrás una orientación más clara, consejos útiles y una propuesta pensada para que tu viaje
+        se adapte a ti y no al revés.
+      </p>
+
+      <button
+        class="btn btn--primary"
+        type="button"
+        (click)="openCustomTripModal()"
+      >
+        Pedir viaje personalizado
+      </button>
+    </div>
+
+    <div class="custom-trip__steps">
+      <article class="step-card" *ngFor="let item of process; let i = index">
+        <div class="step-card__number">0{{ i + 1 }}</div>
+        <div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="discounts" class="perks">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-label">Ventajas viajeras</span>
+      <h2>Ahorra en herramientas y planes que pueden ayudarte durante tu viaje</h2>
+      <p>
+        Aquí encontrarás descuentos reales en servicios que pueden ser útiles antes, durante
+        o después del viaje. La idea no es añadir promociones sin más, sino compartir recursos
+        que de verdad puedan ayudarte a organizar mejor, reservar actividades o guardar recuerdos.
+      </p>
+    </div>
+
+    <div class="perks__grid">
+      <article class="perk-card" *ngFor="let perk of discounts">
+        <div class="perk-card__image">
+          <img [src]="perk.image" [alt]="perk.title" />
+        </div>
+
+        <div class="perk-card__top">
+          <span class="perk-card__label">{{ perk.label }}</span>
+          <h3>{{ perk.title }}</h3>
+        </div>
+
+        <p class="perk-card__description">{{ perk.description }}</p>
+        <p class="perk-card__details">{{ perk.details }}</p>
+
+        <div class="perk-card__points">
+          <div class="perk-card__point" *ngFor="let point of perk.points">
+            <span class="perk-card__dot"></span>
+            <span>{{ point }}</span>
+          </div>
+        </div>
+
+        <div class="perk-card__code">
+          <div class="perk-card__code-info">
+            <span>Código descuento</span>
+            <strong>{{ perk.code }}</strong>
+          </div>
+
+          <button
+            type="button"
+            class="perk-card__copy"
+            (click)="copyDiscountCode(perk.code)"
+            [attr.aria-label]="'Copiar código ' + perk.code"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M9 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9zm-4 6V6a2 2 0 0 1 2-2h7"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <a
+          class="btn btn--primary"
+          [href]="perk.url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ perk.buttonText }}
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="suggestion">
+  <div class="container suggestion__box">
+    <div class="suggestion__content">
+      <span class="section-label">¿Hechas en falta alguna guía?</span>
+      <h2>Dime qué destino te gustaría ver en la web</h2>
+      <p>
+        Si hay una guía que te gustaría descargar y todavía no está publicada, puedes dejarme tu sugerencia.
+        Así sabré qué destinos interesan más y cuáles preparar próximamente.
+      </p>
+    </div>
+
+    <div class="suggestion__form">
+      <textarea
+        [(ngModel)]="guideSuggestion"
+        placeholder="Ejemplo: Me gustaría una guía de Nueva York en 5 días, con plan de brunch, miradores, compras y museos"
+        rows="5"
+      ></textarea>
+
+      <button
+        class="btn btn--dark"
+        [disabled]="!isSuggestionValid || suggestionSending"
+        (click)="submitSuggestion()"
+      >
+        {{ suggestionSending ? 'Enviando...' : 'Enviar sugerencia' }}
+      </button>
+
+      <p class="suggestion__success" *ngIf="suggestionSent">
+        ✔️ Sugerencia enviada
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container cta__box">
+    <h2>Descarga una guía gratis o deja que te ayude a organizar tu viaje</h2>
+    <p>
+      Tanto si quieres una guía lista para usar como si prefieres una ayuda más personalizada,
+      aquí tienes una forma más fácil de preparar tu próximo viaje.
+    </p>
+
+    <div class="cta__actions">
+      <button class="btn btn--light" (click)="scrollToGuides()">Explorar guías</button>
+      <a
+        class="btn btn--outline-light"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="scrollToCustomTrip()"
+      >
+        Ayuda personalizada
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="author-signature">
+  <div class="container author-signature__box">
+    <p class="author-signature__eyebrow">Autor</p>
+    <h3>{{ brandName }} Rumbo Atlas</h3>
+    <p class="author-signature__text">
+      Todas las guías y recomendaciones de esta web están creadas por mí para ayudarte a viajar
+      de una forma más clara, más bonita y mucho más práctica.
+    </p>
+
+    <a
+      class="author-signature__link"
+      href="https://instagram.com/yannita.gastoncita"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      @yannita.gastoncita
+    </a>
+  </div>
+</section>
+
+<app-custom-trip-modal
+  *ngIf="showCustomTripModal"
+  (close)="closeCustomTripModal()"
+  (submitForm)="handleCustomTripSubmit($event)"
+></app-custom-trip-modal>
+
