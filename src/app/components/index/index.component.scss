@@ -741,7 +741,6 @@ section {
   &__details,
   &__points,
   &__code,
-  .btn,
   &__copied {
     margin-left: 1.5rem;
     margin-right: 1.5rem;
@@ -870,8 +869,8 @@ section {
   }
 
   .btn {
-    margin-top: auto;
-    margin-bottom: 1.5rem;
+    width: calc(100% - 3rem);
+    margin: auto 1.5rem 1.5rem;
   }
 }
 
@@ -1092,7 +1091,7 @@ section {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #16a34a; // verde éxito
+  color: #16a34a;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -1159,7 +1158,6 @@ section {
     &__details,
     &__points,
     &__code,
-    .btn,
     &__copied {
       margin-left: 1rem;
       margin-right: 1rem;
@@ -1238,7 +1236,8 @@ section {
     }
 
     .btn {
-      margin-bottom: 1rem;
+      width: calc(100% - 2rem);
+      margin: auto 1rem 1rem;
       padding: 0.85rem 1rem;
       font-size: 0.92rem;
     }

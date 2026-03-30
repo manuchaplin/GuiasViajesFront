@@ -29,7 +29,6 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
   hasTriedSubmit = false;
   isSubmitting = false;
   showSuccessMessage = false;
-  submitError = false;
   guideNotFound = false;
 
   copiedCode: string | null = null;
@@ -100,7 +99,7 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
   }
 
   get isFormValid(): boolean {
-    return this.isEmailValid && this.acceptedPolicy;
+    return this.isEmailValid && this.acceptedPolicy && this.acceptedMarketing;
   }
 
   get canSubmit(): boolean {
@@ -153,14 +152,13 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
 
     this.hasTriedSubmit = true;
     this.emailTouched = true;
-    this.submitError = false;
-    this.showSuccessMessage = false;
+    
 
     if (!this.isFormValid || this.isSubmitting) {
       return;
     }
 
-    this.isSubmitting = true;
+    this.showSuccessMessage = true;
 
     const data = {
       correo: this.trimmedEmail,
@@ -171,15 +169,11 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
 
     this.apiService.requestGuide(data).subscribe({
       next: (response) => {
-        console.log('Solicitud enviada correctamente', response);
         this.showSuccessMessage = true;
-        this.isSubmitting = false;
       },
       error: (error) => {
         console.error('Error al solicitar la guía', error);
-        this.submitError = true;
         this.showSuccessMessage = false;
-        this.isSubmitting = false;
       }
     });
   }
@@ -192,7 +186,6 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
     this.hasTriedSubmit = false;
     this.isSubmitting = false;
     this.showSuccessMessage = false;
-    this.submitError = false;
   }
 
   private handleGuideNotFound(): void {
