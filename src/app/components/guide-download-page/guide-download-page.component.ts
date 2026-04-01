@@ -174,7 +174,6 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
       error: (error) => {
         this.isSubmitting = false;
         this.showSuccessMessage = false;
-        console.error('Error al solicitar la guía', error);
       }
     });
   }
