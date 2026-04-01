@@ -228,9 +228,9 @@
                   <strong>Gratis</strong>
                 </div>
 
-                <button class="btn btn--dark" type="button" (click)="goToGuide(item.id)">
+                <a class="btn btn--dark" [routerLink]="['/guia', item.id]">
                   Ver guía
-                </button>
+                </a>
               </div>
             </div>
           </article>

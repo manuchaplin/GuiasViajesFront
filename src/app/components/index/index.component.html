@@ -6,13 +6,13 @@
       <span class="badge">Guías de viaje digitales y planificación personalizada</span>
 
       <h1>
-        Organiza tu viaje de forma fácil y sin perder horas buscando.
+        Guías de viaje, rutas e itinerarios para organizar tu viaje de forma fácil.
       </h1>
 
       <p class="hero__description">
-        En <strong>{{ brandName }}</strong> encontrarás guías de viaje gratuitas, visuales y prácticas
-        para viajar con más claridad. Y si quieres algo más personalizado, también puedo ayudarte
-        a preparar tu viaje según tus fechas, tus gustos y el tipo de experiencia que te apetece vivir.
+        En <strong>{{ brandName }}</strong> encontrarás guías de viaje, rutas e itinerarios prácticos
+        para organizar escapadas y viajes de varios días con más claridad. También puedo ayudarte
+        a preparar un viaje personalizado según tus fechas, tus gustos y el tipo de experiencia que buscas.
       </p>
 
       <div class="hero__actions">
@@ -42,21 +42,21 @@
         <article class="cover-card cover-card--back">
           <img
             src="assets/images/Londres.jpg"
-            alt="Portada vertical de guía de viaje"
+            alt="Guía de viaje de Londres"
           />
         </article>
 
         <article class="cover-card cover-card--middle">
           <img
             src="assets/images/NewYork.jpg"
-            alt="Portada vertical de guía de viaje"
+            alt="Guía de viaje de New York"
           />
         </article>
 
         <article class="cover-card cover-card--front">
           <img
             src="assets/images/Japon.jpg"
-            alt="Portada principal de guía de viaje"
+            alt="Guía de viaje de Japón"
           />
           <div class="cover-card__info">
             <span>Proximamente</span>
@@ -143,7 +143,7 @@
                 <strong>Gratis</strong>
               </div>
 
-              <button class="btn btn--dark" (click)="openGuidePage(guide)">
+              <button class="btn btn--dark" [routerLink]="['/guia', guide.id]">
                 Descargar guía
               </button>
 
@@ -338,7 +338,7 @@
 <section class="author-signature">
   <div class="container author-signature__box">
     <p class="author-signature__eyebrow">Autor</p>
-    <h3>{{ brandName }} Rumbo Atlas</h3>
+    <h3>{{ brandName }}</h3>
     <p class="author-signature__text">
       Todas las guías y recomendaciones de esta web están creadas por mí para ayudarte a viajar
       de una forma más clara, más bonita y mucho más práctica.

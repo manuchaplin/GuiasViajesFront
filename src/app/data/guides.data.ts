@@ -12,37 +12,37 @@ export interface Guide {
 export const GUIDES: Guide[] = [
   {
     id: 'roma',
-    title: 'Lo mejor de Roma en 2 días',
+    title: 'Lo mejor de Roma',
     destination: 'Roma, Italia',
     duration: 'Ruta de 2 días',
     image: 'assets/images/Roma.jpg',
     description:
       'Una guía práctica para disfrutar Roma con una ruta clara, planes bien organizados y consejos para aprovechar el viaje sin ir improvisando cada día.',
     highlight: 'Ideal para primera visita',
-    related_guides: ['paris', 'londres', 'madrid']
+    related_guides: ['paris', 'londres']
   },
   {
     id: 'paris',
-    title: 'París sin perderte nada, ruta de 3 días',
+    title: 'Paris, el itinerario perfecto',
     destination: 'París, Francia',
     duration: 'Ruta de 3 días',
     image: 'assets/images/Paris.jpg',
     description:
       'Un recorrido pensado para descubrir París combinando monumentos icónicos, barrios con encanto y pausas gastronómicas sin perder tiempo en desplazamientos.',
     highlight: 'Perfecta para escapadas',
-    related_guides: ['roma', 'londres', 'madrid']
+    related_guides: ['roma', 'londres']
   },
   {
     id: 'londres',
-    title: 'Londres en 3 días, lo esencial',
+    title: 'La mejor ruta de Londres',
     destination: 'Londres, Reino Unido',
     duration: 'Ruta de 3 días',
     image: 'assets/images/Londres.jpg',
     description:
       'Una ruta equilibrada para conocer Londres mezclando historia, mercados locales y zonas modernas con una planificación clara para moverte sin complicaciones.',
     highlight: 'Ideal para conocer lo escencial',
-    related_guides: ['roma', 'paris', 'madrid']
-  },
+    related_guides: ['roma', 'paris']
+  }/*,
   {
     id: 'madrid',
     title: 'Madrid en 3 días, itinerario completo',
@@ -87,4 +87,5 @@ export const GUIDES: Guide[] = [
     highlight: 'Perfecta para aventureros',
     related_guides: ['tailandia']
   }
+  */
 ];

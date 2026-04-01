@@ -36,7 +36,7 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
   private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   // Cambia esto por tu dominio real
-  private readonly siteUrl = 'https://tudominio.com'; 
+  private readonly siteUrl = 'https://rumboatlas.azurewebsites.net/'; 
   private readonly siteName = 'RumboAtlas';
 
   constructor(
@@ -200,7 +200,7 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
     this.title.setTitle(title);
 
     this.meta.updateTag({ name: 'description', content: description });
-    this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
+    this.meta.updateTag({ name: 'robots', content: 'noindex,follow' });
 
     this.meta.updateTag({ property: 'og:title', content: title });
     this.meta.updateTag({ property: 'og:description', content: description });
@@ -218,21 +218,22 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
   }
 
   private setGuideMetadata(guide: Guide): void {
-    const title = `Descargar guía de ${guide.title} gratis | ${this.siteName}`;
-    const description = `Descarga gratis la guía ${guide.title}. Recibe una ruta práctica, visual y clara para organizar mejor tu viaje con ${this.siteName}.`;
+    const title = `${guide.title} | Guía de viaje gratis | ${this.siteName}`;
+    const description = `Descarga gratis la guía de ${guide.title}. Encuentra una ruta práctica, visual y clara para organizar mejor tu viaje.`;
     const url = `${this.siteUrl}/guia/${guide.id}`;
     const image = this.toAbsoluteUrl(guide.image);
 
     this.title.setTitle(title);
 
     this.meta.updateTag({ name: 'description', content: description });
-    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
+    this.meta.updateTag({ name: 'robots', content: 'index,follow' });
 
     this.meta.updateTag({ property: 'og:title', content: title });
     this.meta.updateTag({ property: 'og:description', content: description });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
+    this.meta.updateTag({ property: 'og:type', content: 'article' });
     this.meta.updateTag({ property: 'og:url', content: url });
     this.meta.updateTag({ property: 'og:image', content: image });
+    this.meta.updateTag({ property: 'og:image:alt', content: `Portada de la guía ${guide.title}` });
     this.meta.updateTag({ property: 'og:site_name', content: this.siteName });
 
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });

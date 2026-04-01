@@ -528,7 +528,7 @@ button {
 
     h3 {
       margin: 0.5rem 0 0.3rem;
-      font-size: 1.3rem;
+      font-size: 1.0rem;
       color: #0f172a;
     }
   }
@@ -546,13 +546,14 @@ button {
   &__destination {
     margin: 0;
     color: #475569;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   &__meta {
     margin: 0.5rem 0 0.85rem;
     color: #2563eb;
     font-weight: 700;
+    font-size: 0.9rem;
   }
 
   &__description {
@@ -909,7 +910,7 @@ button {
   }
 
   .guide-card__description {
-    min-height: auto;
+    display: none;
   }
 }
 

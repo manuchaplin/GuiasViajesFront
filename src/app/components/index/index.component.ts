@@ -1,31 +1,42 @@
-import { Component, ElementRef, ViewChild, ChangeDetectorRef  } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  ChangeDetectorRef,
+  Inject,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
 import { CustomTripModalComponent } from '../custom-trip-modal/custom-trip-modal.component';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { GUIDES, Guide } from '../../data/guides.data';
 import { Discount, DISCOUNTS } from '../../data/discounts.data';
 import { Benefit, BENEFITS } from '../../data/benefits.data';
 
-
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [CommonModule, FormsModule, CustomTripModalComponent],
+  imports: [CommonModule, FormsModule, CustomTripModalComponent, RouterModule],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
-export class IndexComponent {
+export class IndexComponent implements OnInit, OnDestroy {
   @ViewChild('guidesSlider') guidesSlider?: ElementRef<HTMLDivElement>;
+
+  private readonly siteUrl = 'https://rumboatlas.azurewebsites.net/';
+  private readonly siteName = ' RumboAtlas';
 
   constructor(
     private apiService: ApiService,
     private cdr: ChangeDetectorRef,
     private title: Title,
     private meta: Meta,
-    private router: Router
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   brandName = 'RumboAtlas';
@@ -43,15 +54,6 @@ export class IndexComponent {
   suggestionSending = false;
 
   copiedCode: string | null = null;
-
-  ngOnInit(): void {
-    this.title.setTitle('Guías de viaje gratis y planificación personalizada | RumboAtlas');
-
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Descarga guías de viaje gratuitas y organiza tu viaje de forma clara con rutas prácticas y consejos útiles.'
-    });
-  }
 
   guides: Guide[] = GUIDES;
   discounts: Discount[] = DISCOUNTS;
@@ -81,6 +83,39 @@ export class IndexComponent {
     'Consejos prácticos para organizar el viaje con más claridad'
   ];
 
+  ngOnInit(): void {
+    const title = 'RumboAtlas | Guías de viaje, rutas e itinerarios';
+    const description =
+      'Descubre guías de viaje, rutas e itinerarios prácticos para organizar tu viaje de forma fácil. Descarga guías gratis y consigue planificación personalizada.';
+    const image = `${this.siteUrl}/assets/og/portada-rumbo-atlas.jpg`;
+    const url = `${this.siteUrl}/`;
+
+    this.title.setTitle(title);
+
+    this.meta.updateTag({ name: 'description', content: description });
+    this.meta.updateTag({ name: 'robots', content: 'index,follow' });
+
+    this.meta.updateTag({ property: 'og:locale', content: 'es_ES' });
+    this.meta.updateTag({ property: 'og:type', content: 'website' });
+    this.meta.updateTag({ property: 'og:site_name', content: this.siteName });
+    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:description', content: description });
+    this.meta.updateTag({ property: 'og:url', content: url });
+    this.meta.updateTag({ property: 'og:image', content: image });
+    this.meta.updateTag({ property: 'og:image:alt', content: 'RumboAtlas - guías de viaje, rutas e itinerarios' });
+
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:title', content: title });
+    this.meta.updateTag({ name: 'twitter:description', content: description });
+    this.meta.updateTag({ name: 'twitter:image', content: image });
+
+    this.updateCanonicalUrl(url);
+    this.setHomeStructuredData();
+  }
+
+  ngOnDestroy(): void {
+    this.removeStructuredData();
+  }
 
   get filteredGuides(): Guide[] {
     const query = this.guideSearch.trim().toLowerCase();
@@ -211,5 +246,56 @@ export class IndexComponent {
     }).catch(() => {
       this.copiedCode = null;
     });
+  }
+
+  private updateCanonicalUrl(url: string): void {
+    let link: HTMLLinkElement | null = this.document.querySelector('link[rel="canonical"]');
+
+    if (!link) {
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+    }
+
+    link.setAttribute('href', url);
+  }
+
+  private setHomeStructuredData(): void {
+    this.removeStructuredData();
+
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'home-structured-data';
+
+    const schema = {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Organization',
+          name: this.siteName,
+          url: this.siteUrl,
+          logo: `${this.siteUrl}/assets/logo.png`,
+          sameAs: [
+            'https://instagram.com/yannita.gastoncita'
+          ]
+        },
+        {
+          '@type': 'WebSite',
+          name: this.siteName,
+          url: this.siteUrl,
+          inLanguage: 'es'
+        }
+      ]
+    };
+
+    script.text = JSON.stringify(schema);
+    this.document.head.appendChild(script);
+  }
+
+  private removeStructuredData(): void {
+    const oldScript = this.document.getElementById('home-structured-data');
+    if (oldScript) {
+      oldScript.remove();
+    }
   }
 }
