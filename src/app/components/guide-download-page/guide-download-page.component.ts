@@ -35,8 +35,7 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
 
   private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-  // Cambia esto por tu dominio real
-  private readonly siteUrl = 'https://rumboatlas.azurewebsites.net/'; 
+  private readonly siteUrl = 'https://rumboatlas.com';
   private readonly siteName = 'RumboAtlas';
 
   constructor(
@@ -152,13 +151,13 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
 
     this.hasTriedSubmit = true;
     this.emailTouched = true;
-    
 
     if (!this.isFormValid || this.isSubmitting) {
       return;
     }
 
-    this.showSuccessMessage = true;
+    this.isSubmitting = true;
+    this.showSuccessMessage = false;
 
     const data = {
       correo: this.trimmedEmail,
@@ -168,12 +167,14 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
     };
 
     this.apiService.requestGuide(data).subscribe({
-      next: (response) => {
+      next: () => {
+        this.isSubmitting = false;
         this.showSuccessMessage = true;
       },
       error: (error) => {
-        console.error('Error al solicitar la guía', error);
+        this.isSubmitting = false;
         this.showSuccessMessage = false;
+        console.error('Error al solicitar la guía', error);
       }
     });
   }
@@ -193,42 +194,42 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
     this.guide = null;
     this.relatedGuides = [];
 
-    const title = 'Guía no encontrada | RumboAtlas';
+    const pageTitle = 'Guía no encontrada | RumboAtlas';
     const description = 'La guía que buscas no está disponible ahora mismo.';
-    const url = `${this.siteUrl}/guia`;
+    const currentUrl = this.document.location.href || `${this.siteUrl}/guia`;
 
-    this.title.setTitle(title);
+    this.title.setTitle(pageTitle);
 
     this.meta.updateTag({ name: 'description', content: description });
     this.meta.updateTag({ name: 'robots', content: 'noindex,follow' });
 
-    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:title', content: pageTitle });
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:type', content: 'website' });
-    this.meta.updateTag({ property: 'og:url', content: url });
+    this.meta.updateTag({ property: 'og:url', content: currentUrl });
     this.meta.updateTag({ property: 'og:site_name', content: this.siteName });
 
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.updateTag({ name: 'twitter:title', content: title });
+    this.meta.updateTag({ name: 'twitter:title', content: pageTitle });
     this.meta.updateTag({ name: 'twitter:description', content: description });
 
-    this.updateCanonicalUrl(url);
+    this.updateCanonicalUrl(currentUrl);
     this.removeStructuredData();
     this.resetFormState();
   }
 
   private setGuideMetadata(guide: Guide): void {
-    const title = `${guide.title} | Guía de viaje gratis | ${this.siteName}`;
+    const pageTitle = `${guide.title} | Guía de viaje gratis | ${this.siteName}`;
     const description = `Descarga gratis la guía de ${guide.title}. Encuentra una ruta práctica, visual y clara para organizar mejor tu viaje.`;
     const url = `${this.siteUrl}/guia/${guide.id}`;
     const image = this.toAbsoluteUrl(guide.image);
 
-    this.title.setTitle(title);
+    this.title.setTitle(pageTitle);
 
     this.meta.updateTag({ name: 'description', content: description });
     this.meta.updateTag({ name: 'robots', content: 'index,follow' });
 
-    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:title', content: pageTitle });
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:type', content: 'article' });
     this.meta.updateTag({ property: 'og:url', content: url });
@@ -237,7 +238,7 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
     this.meta.updateTag({ property: 'og:site_name', content: this.siteName });
 
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.updateTag({ name: 'twitter:title', content: title });
+    this.meta.updateTag({ name: 'twitter:title', content: pageTitle });
     this.meta.updateTag({ name: 'twitter:description', content: description });
     this.meta.updateTag({ name: 'twitter:image', content: image });
 
@@ -279,7 +280,7 @@ export class GuideDownloadPageComponent implements OnInit, OnDestroy {
       isPartOf: {
         '@type': 'WebSite',
         name: this.siteName,
-        url: this.siteUrl
+        url: `${this.siteUrl}/`
       },
       about: {
         '@type': 'Thing',

@@ -15,5 +15,9 @@ export const routes: Routes = [
   {
     path: 'guia/:id',
     component: GuideDownloadPageComponent
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];

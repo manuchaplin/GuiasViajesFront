@@ -27,8 +27,9 @@ import { Benefit, BENEFITS } from '../../data/benefits.data';
 export class IndexComponent implements OnInit, OnDestroy {
   @ViewChild('guidesSlider') guidesSlider?: ElementRef<HTMLDivElement>;
 
-  private readonly siteUrl = 'https://rumboatlas.azurewebsites.net/';
-  private readonly siteName = ' RumboAtlas';
+  private readonly siteUrl = 'https://rumboatlas.com';
+  private readonly siteName = 'RumboAtlas';
+  private readonly defaultImage = 'https://rumboatlas.com/assets/images/rumbo-atlas-portada.png';
 
   constructor(
     private apiService: ApiService,
@@ -84,13 +85,13 @@ export class IndexComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    const title = 'RumboAtlas | Guías de viaje, rutas e itinerarios';
+    const pageTitle = 'RumboAtlas | Guías de viaje, rutas e itinerarios';
     const description =
       'Descubre guías de viaje, rutas e itinerarios prácticos para organizar tu viaje de forma fácil. Descarga guías gratis y consigue planificación personalizada.';
-    const image = `${this.siteUrl}/assets/og/portada-rumbo-atlas.jpg`;
+    const image = this.defaultImage;
     const url = `${this.siteUrl}/`;
 
-    this.title.setTitle(title);
+    this.title.setTitle(pageTitle);
 
     this.meta.updateTag({ name: 'description', content: description });
     this.meta.updateTag({ name: 'robots', content: 'index,follow' });
@@ -98,14 +99,17 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.meta.updateTag({ property: 'og:locale', content: 'es_ES' });
     this.meta.updateTag({ property: 'og:type', content: 'website' });
     this.meta.updateTag({ property: 'og:site_name', content: this.siteName });
-    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:title', content: pageTitle });
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:url', content: url });
     this.meta.updateTag({ property: 'og:image', content: image });
-    this.meta.updateTag({ property: 'og:image:alt', content: 'RumboAtlas - guías de viaje, rutas e itinerarios' });
+    this.meta.updateTag({
+      property: 'og:image:alt',
+      content: 'RumboAtlas - guías de viaje, rutas e itinerarios'
+    });
 
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.updateTag({ name: 'twitter:title', content: title });
+    this.meta.updateTag({ name: 'twitter:title', content: pageTitle });
     this.meta.updateTag({ name: 'twitter:description', content: description });
     this.meta.updateTag({ name: 'twitter:image', content: image });
 
@@ -220,17 +224,17 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   scrollToGuides(): void {
-    const element = document.getElementById('guides');
+    const element = this.document.getElementById('guides');
     element?.scrollIntoView({ behavior: 'smooth' });
   }
 
   scrollToCustomTrip(): void {
-    const element = document.getElementById('custom-trip');
+    const element = this.document.getElementById('custom-trip');
     element?.scrollIntoView({ behavior: 'smooth' });
   }
 
   scrollToDiscounts(): void {
-    const element = document.getElementById('discounts');
+    const element = this.document.getElementById('discounts');
     element?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -273,8 +277,8 @@ export class IndexComponent implements OnInit, OnDestroy {
         {
           '@type': 'Organization',
           name: this.siteName,
-          url: this.siteUrl,
-          logo: `${this.siteUrl}/assets/logo.png`,
+          url: `${this.siteUrl}/`,
+          logo: `${this.siteUrl}/assets/images/logo.png`,
           sameAs: [
             'https://instagram.com/yannita.gastoncita'
           ]
@@ -282,7 +286,7 @@ export class IndexComponent implements OnInit, OnDestroy {
         {
           '@type': 'WebSite',
           name: this.siteName,
-          url: this.siteUrl,
+          url: `${this.siteUrl}/`,
           inLanguage: 'es'
         }
       ]
