@@ -3,7 +3,7 @@ export interface Discount {
   title: string;
   description: string;
   details: string;
-  code: string;
+  code?: string;
   url: string;
   image: string;
   buttonText: string;
@@ -27,6 +27,23 @@ export const DISCOUNTS: Discount[] = [
         'Aplicable desde la app móvil',
         'Útil para tours, entradas y excursiones',
         'Perfecto para organizar planes antes del viaje'
+      ]
+    },
+    {
+      label: 'Seguro de viaje',
+      title: 'IATI',
+      description:
+        'Contrata tu seguro de viaje con descuento desde este enlace.',
+      details:
+        'Viajar con seguro es fundamental para evitar gastos imprevistos. Con este enlace puedes contratar tu seguro IATI con descuento y viajar con total tranquilidad, incluyendo cobertura médica, cancelaciones y asistencia 24/7.',
+      url: 'https://www.iatiseguros.com?r=91235985450990',
+      image: 'assets/images/iati.jpg',
+      buttonText: 'Contratar seguro',
+      points: [
+        'Descuento aplicado automáticamente',
+        'Cobertura médica en el extranjero',
+        'Asistencia 24/7 durante el viaje',
+        'Opciones para todo tipo de viajes'
       ]
     },
     {

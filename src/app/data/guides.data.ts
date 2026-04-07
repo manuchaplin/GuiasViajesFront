@@ -19,33 +19,33 @@ export const GUIDES: Guide[] = [
     description:
       'Una guía práctica para disfrutar Roma con una ruta clara, planes bien organizados y consejos para aprovechar el viaje sin ir improvisando cada día.',
     highlight: 'Ideal para primera visita',
-    related_guides: ['paris', 'londres']
+    related_guides: ['paris', 'londres', 'madrid']
   },
   {
     id: 'paris',
-    title: 'Paris, el itinerario perfecto',
+    title: 'Paris, la ruta perfecta',
     destination: 'París, Francia',
     duration: 'Ruta de 3 días',
     image: 'assets/images/Paris.jpg',
     description:
       'Un recorrido pensado para descubrir París combinando monumentos icónicos, barrios con encanto y pausas gastronómicas sin perder tiempo en desplazamientos.',
     highlight: 'Perfecta para escapadas',
-    related_guides: ['roma', 'londres']
+    related_guides: ['roma', 'londres', 'madrid']
   },
   {
     id: 'londres',
-    title: 'La mejor ruta de Londres',
+    title: 'Londres, descubre lo escencial',
     destination: 'Londres, Reino Unido',
     duration: 'Ruta de 3 días',
     image: 'assets/images/Londres.jpg',
     description:
       'Una ruta equilibrada para conocer Londres mezclando historia, mercados locales y zonas modernas con una planificación clara para moverte sin complicaciones.',
     highlight: 'Ideal para conocer lo escencial',
-    related_guides: ['roma', 'paris']
-  }/*,
+    related_guides: ['roma', 'paris', 'madrid']
+  },
   {
     id: 'madrid',
-    title: 'Madrid en 3 días, itinerario completo',
+    title: 'Madrid, itinerario completo',
     destination: 'Madrid, España',
     duration: 'Ruta de 3 días',
     image: 'assets/images/Madrid.jpg',
@@ -56,15 +56,15 @@ export const GUIDES: Guide[] = [
   },
   {
     id: 'new_york',
-    title: 'Ruta de 3 días por Nueva York',
+    title: 'La mejor ruta de New York',
     destination: 'New York, Estados Unidos',
-    duration: 'Ruta de 3 días',
+    duration: 'Ruta de 4 días',
     image: 'assets/images/NewYork.jpg',
     description:
       'Un itinerario dinámico para explorar Nueva York entre rascacielos, parques y barrios icónicos con una planificación clara para aprovechar cada jornada.',
     highlight: 'Perfecta para ver lo mejor',
     related_guides: ['londres']
-  },
+  }/*,
   {
     id: 'tailandia',
     title: 'Tailandia en 15 días, viaje completo',

@@ -242,30 +242,30 @@
           </div>
         </div>
 
-        <div class="perk-card__code">
-          <div class="perk-card__code-info">
-            <span>Código descuento</span>
-            <strong>{{ perk.code }}</strong>
-          </div>
+        <div class="perk-card__code" *ngIf="perk.code?.length">
+            <div class="perk-card__code-info">
+              <span>Código descuento</span>
+              <strong>{{ perk.code }}</strong>
+            </div>
 
-          <button
-            type="button"
-            class="perk-card__copy"
-            (click)="copyDiscountCode(perk.code)"
-            [attr.aria-label]="'Copiar código ' + perk.code"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M9 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9zm-4 6V6a2 2 0 0 1 2-2h7"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+            <button
+              type="button"
+              class="perk-card__copy"
+              (click)="copyDiscountCode(perk.code!)"
+              [attr.aria-label]="'Copiar código ' + perk.code"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M9 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9zm-4 6V6a2 2 0 0 1 2-2h7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
 
         <a
           class="btn btn--primary"

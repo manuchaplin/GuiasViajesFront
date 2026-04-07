@@ -149,7 +149,7 @@
             </div>
           </div>
 
-          <div class="perk-card__code">
+          <div class="perk-card__code" *ngIf="perk.code?.length">
             <div class="perk-card__code-info">
               <span>Código descuento</span>
               <strong>{{ perk.code }}</strong>
@@ -158,7 +158,7 @@
             <button
               type="button"
               class="perk-card__copy"
-              (click)="copyDiscountCode(perk.code)"
+              (click)="copyDiscountCode(perk.code!)"
               [attr.aria-label]="'Copiar código ' + perk.code"
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
